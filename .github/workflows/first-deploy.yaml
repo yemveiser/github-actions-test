@@ -1,0 +1,17 @@
+name: GitHub Actions Demo
+on:
+    workflow_dispatch:
+      inputs:
+        name:
+          description: 'Enter name'
+          required: true
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Print name
+        run: echo "My name is ${{ github.event.inputs.name}}"
+
