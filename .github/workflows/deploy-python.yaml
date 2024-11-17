@@ -7,17 +7,17 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      - name: Add VM to known_hosts
-        run: |
-            ssh-keyscan -H ${{ secrets.VM_HOST }} >> ~/.ssh/known_hosts
       - name: Copy Python files
-        run: |
-            cat <<EOF > vm-key.pem
-            ${{ secrets.VM_KEY }}
-            EOF
-            chmod 600 vm-key.pem
-            scp -i vm-key.pem main.py requirements.txt ubuntu@${{ secrets.VM_HOST }}:/home/ubuntu
-      - name: Install Python dependencies
+        uses: appleboy/scp-action@v0.1.7
+        with:
+            host: ${{ secrets.VM_HOST }}
+            username: ubuntu
+            key: ${{ secrets.VM_KEY }}
+            port: 22
+            source: "~/main.py,~/requirements.txt"
+            target: /home/ubuntu
+
+      - name: Install Python dependencies and run script
         uses: appleboy/ssh-action@v1.2.0
         with:
             host: ${{ secrets.VM_HOST }}
