@@ -26,6 +26,6 @@ jobs:
             port: 22
             script: |
                 pip3 install flask --break-system-packages
-                python3 main.py &
+                nohup python main.py > output.log 2>&1 &
     
 
