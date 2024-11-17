@@ -25,7 +25,6 @@ jobs:
             key: ${{ secrets.VM_KEY }}
             port: 22
             script: |
-                sudo apt install python3-pip -y
                 pipx install flask
                 python3 main.py
     
