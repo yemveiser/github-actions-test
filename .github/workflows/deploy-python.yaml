@@ -8,7 +8,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Copy Python files
-        run: scp -i ${{ secrets.VM_KEY }} main.py requirements.txt ubuntu@${{ secrets.VM_HOST }}:/home/ubuntu
+        run: |
+            cat ${{ secrets.VM_KEY }} > vm-key.pem
+            chmod 600 vm-key.pem
+            scp -i vm-key.pem main.py requirements.txt ubuntu@${{ secrets.VM_HOST }}:/home/ubuntu
       - name: Install Python dependencies
         uses: appleboy/ssh-action@v1.2.0
         with:
