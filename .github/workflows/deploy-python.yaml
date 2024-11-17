@@ -9,7 +9,7 @@ jobs:
         uses: actions/checkout@v4
       - name: Copy Python files
         run: |
-            cat ${{ secrets.VM_KEY }} > vm-key.pem
+            echo "${{ secrets.VM_KEY }}" > vm-key.pem
             chmod 600 vm-key.pem
             scp -i vm-key.pem main.py requirements.txt ubuntu@${{ secrets.VM_HOST }}:/home/ubuntu
       - name: Install Python dependencies
