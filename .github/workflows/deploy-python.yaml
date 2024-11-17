@@ -1,0 +1,23 @@
+name: Deploy Python Code
+on: [workflow_dispatch]
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Copy Python files
+        run: scp -i ${{ secrets.VM_KEY }} main.py requirements.txt ubuntu@${{ secrets.VM_HOST }}:/home/ubuntu
+      - name: Install Python dependencies
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+            host: ${{ secrets.VM_HOST }}
+            username: ubuntu
+            key: ${{ secrets.VM_KEY }}
+            port: 22
+            script: |
+                pip3 install -r requirements.txt
+                python3 main.py
+    
+
